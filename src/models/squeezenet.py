@@ -11,7 +11,7 @@ def fire_module(inputs,
                 reuse=None,
                 scope=None,
                 outputs_collections=None):
-    with tf.variable_scope(scope, 'fire', [inputs], reuse=reuse):
+    with tf.compat.v1.variable_scope(scope, 'fire', [inputs], reuse=reuse):
         with slim.arg_scope([slim.conv2d, slim.max_pool2d],
                             outputs_collections=None):
             net = squeeze(inputs, squeeze_depth)
@@ -22,7 +22,7 @@ def squeeze(inputs, num_outputs):
     return slim.conv2d(inputs, num_outputs, [1, 1], stride=1, scope='squeeze')
 
 def expand(inputs, num_outputs):
-    with tf.variable_scope('expand'):
+    with tf.compat.v1.variable_scope('expand'):
         e1x1 = slim.conv2d(inputs, num_outputs, [1, 1], stride=1, scope='1x1')
         e3x3 = slim.conv2d(inputs, num_outputs, [3, 3], scope='3x3')
     return tf.concat([e1x1, e3x3], 3)
@@ -43,7 +43,7 @@ def inference(images, keep_probability, phase_train=True, bottleneck_layer_size=
                         weights_regularizer=slim.l2_regularizer(weight_decay),
                         normalizer_fn=slim.batch_norm,
                         normalizer_params=batch_norm_params):
-        with tf.variable_scope('squeezenet', [images], reuse=reuse):
+        with tf.compat.v1.variable_scope('squeezenet', [images], reuse=reuse):
             with slim.arg_scope([slim.batch_norm, slim.dropout],
                                 is_training=phase_train):
                 net = slim.conv2d(images, 96, [7, 7], stride=2, scope='conv1')

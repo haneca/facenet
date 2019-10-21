@@ -40,7 +40,7 @@ def main(args):
   
     with tf.Graph().as_default():
       
-        with tf.Session() as sess:
+        with tf.compat.v1.Session() as sess:
             
             np.random.seed(seed=args.seed)
             
