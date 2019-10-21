@@ -1,8 +1,7 @@
 language: python
 sudo: required
 python:
-  - "2.7"
-  - "3.5"
+  - "3.7"
 # command to install dependencies
 install:
 # numpy not using wheel to avoid problem described in 
@@ -14,4 +13,3 @@ script:
   - export PYTHONPATH=./src:./src/models:./src/align
   - python -m unittest discover -s test --pattern=*.py 1>&2
 dist: trusty
-
