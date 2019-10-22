@@ -36,8 +36,8 @@ import facenet
 import numpy as np
 import h5py
 import os
+import cv2
 from datetime import datetime
-from scipy import misc
 from six import iteritems
 
 def main(args):
@@ -195,7 +195,7 @@ def main(args):
                     _, reconstruction_loss_, kl_loss_mean_, total_loss_, learning_rate_, rec_ = sess.run(
                           [train_op, reconstruction_loss, kl_loss_mean, total_loss, learning_rate, reconstructed])
                     img = facenet.put_images_on_grid(rec_, shape=(16,8))
-                    misc.imsave(os.path.join(model_dir, 'reconstructed_%06d.png' % step), img)
+                    cv2.imwrite(os.path.join(model_dir, 'reconstructed_%06d.png' % step), img)
                 else:
                     _, reconstruction_loss_, kl_loss_mean_, total_loss_, learning_rate_ = sess.run(
                           [train_op, reconstruction_loss, kl_loss_mean, total_loss, learning_rate])

@@ -37,7 +37,7 @@ import os
 import numpy as np
 import h5py
 import math
-from scipy import misc
+import cv2
 
 def main(args):
   
@@ -116,7 +116,7 @@ def main(args):
             
             image_filename = os.path.expanduser(args.output_image_filename)
             print('Writing generated image to %s' % image_filename)
-            misc.imsave(image_filename, img)
+            cv2.imwrite(image_filename, img)
 
                     
 def parse_arguments(argv):

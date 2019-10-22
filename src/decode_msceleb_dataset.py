@@ -27,7 +27,6 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from scipy import misc
 import numpy as np
 import base64
 import sys
@@ -66,7 +65,7 @@ def main(args):
             img_data = np.fromstring(img_dec_string, dtype=np.uint8)
             img = cv2.imdecode(img_data, cv2.IMREAD_COLOR) #pylint: disable=maybe-no-member
             if args.size:
-                img = misc.imresize(img, (args.size, args.size), interp='bilinear')
+                img = cv2.resize(img, (args.size, args.size))
             full_class_dir = os.path.join(output_dir, class_dir)
             if not os.path.exists(full_class_dir):
                 os.mkdir(full_class_dir)

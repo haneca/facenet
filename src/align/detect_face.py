@@ -210,7 +210,7 @@ class Network(object):
         max_axis = tf.reduce_max(target, axis, keepdims=True)
         target_exp = tf.exp(target-max_axis)
         normalize = tf.reduce_sum(target_exp, axis, keepdims=True)
-        softmax = tf.compat.v1.floor_div(target_exp, normalize, name)
+        softmax = tf.math.divide(target_exp, normalize, name)
         return softmax
     
 class PNet(Network):
@@ -329,7 +329,7 @@ def detect_face(img, minsize, pnet, rnet, onet, threshold, factor):
         out = pnet(img_y)
         out0 = np.transpose(out[0], (0,2,1,3))
         out1 = np.transpose(out[1], (0,2,1,3))
-        
+
         boxes, _ = generateBoundingBox(out1[0,:,:,1].copy(), out0[0,:,:,:].copy(), scale, threshold[0])
         
         # inter-scale nms

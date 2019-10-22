@@ -26,11 +26,11 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
-from scipy import misc
 import tensorflow as tf
 import numpy as np
 import sys
 import os
+import cv2
 import copy
 import argparse
 import facenet
@@ -92,7 +92,7 @@ def load_and_align_data(image_paths, image_size, margin, gpu_memory_fraction):
     tmp_image_paths=copy.copy(image_paths)
     img_list = []
     for image in tmp_image_paths:
-        img = misc.imread(os.path.expanduser(image), mode='RGB')
+        img = cv2.imread(os.path.expanduser(image))
         img_size = np.asarray(img.shape)[0:2]
         bounding_boxes, _ = align.detect_face.detect_face(img, minsize, pnet, rnet, onet, threshold, factor)
         if len(bounding_boxes) < 1:
@@ -106,7 +106,7 @@ def load_and_align_data(image_paths, image_size, margin, gpu_memory_fraction):
         bb[2] = np.minimum(det[2]+margin/2, img_size[1])
         bb[3] = np.minimum(det[3]+margin/2, img_size[0])
         cropped = img[bb[1]:bb[3],bb[0]:bb[2],:]
-        aligned = misc.imresize(cropped, (image_size, image_size), interp='bilinear')
+        aligned = cv2.resize(cropped, (image_size, image_size))
         prewhitened = facenet.prewhiten(aligned)
         img_list.append(prewhitened)
     images = np.stack(img_list)
